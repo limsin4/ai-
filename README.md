@@ -13,6 +13,62 @@ AI Panel Studio 是一个 AI 圆桌讨论 Web App MVP。用户输入议题和专
 - Vitest 测试
 - SSE 事件流
 
+## 环境配置
+
+### 运行环境
+
+- Node.js：建议使用 `22.x`，当前开发验证版本为 `v22.13.1`
+- npm：随 Node.js 安装即可
+- 操作系统：Windows / macOS / Linux 均可运行
+- 浏览器：Chrome、Edge 或其他现代浏览器
+
+### DeepSeek API
+
+项目后端会从环境变量读取 DeepSeek API Key，不会把 Key 暴露到浏览器端。
+
+在项目根目录创建 `.env.local`：
+
+```bash
+cp .env.example .env.local
+```
+
+然后填写：
+
+```bash
+DEEPSEEK_API_KEY=your_deepseek_api_key_here
+DEEPSEEK_API_BASE=https://api.deepseek.com
+DEEPSEEK_MODEL=deepseek-chat
+```
+
+说明：
+
+- 当前项目优先读取 `DEEPSEEK_KEY`，同时兼容 `DEEPSEEK_API_KEY`。
+- 如果你本地使用 `DEEPSEEK_API_KEY`，保持上面的配置即可。
+- `.env.local` 已被 `.gitignore` 忽略，不要提交到 GitHub。
+- 修改 `.env.local` 后需要重启 `npm run dev`。
+
+### SQLite 数据库
+
+项目提供 SQLite schema 和 seed 数据：
+
+- `db/schema.sql`
+- `db/seed.sql`
+- `scripts/init-db.js`
+
+初始化数据库：
+
+```bash
+npm run db:init
+```
+
+执行后会在本地生成：
+
+```bash
+data/ai-panel-studio.sqlite
+```
+
+该数据库文件只用于本地运行，已被 `.gitignore` 忽略。
+
 ## 快速开始
 
 ```bash
@@ -24,17 +80,10 @@ npm run dev
 
 打开 http://localhost:3000。
 
-`.env.local` 至少需要配置。项目优先读取 `DEEPSEEK_KEY`，也兼容旧变量名 `DEEPSEEK_API_KEY`：
-
-```bash
-DEEPSEEK_KEY=your_deepseek_api_key_here
-DEEPSEEK_API_BASE=https://api.deepseek.com
-DEEPSEEK_MODEL=deepseek-chat
-```
-
 ## 常用命令
 
 ```bash
+npm run dev
 npm test
 npm run build
 npm run db:init
